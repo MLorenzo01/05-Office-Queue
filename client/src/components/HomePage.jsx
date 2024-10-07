@@ -7,7 +7,7 @@ function Homepage() {
 
     return (
         <Container className="mt-5 text-center">
-            <h1 className="display-4">Welcome to the HomePage</h1>
+            <h1 className="display-4">Welcome to the Post Office</h1>
             <Button variant="primary" className="mt-3" 
             onClick={() => navigate('/customer')}>Customer page</Button>
             <Button variant="primary" className="mt-3" 
