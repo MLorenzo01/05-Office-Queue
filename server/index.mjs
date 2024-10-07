@@ -1,6 +1,9 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import sequelize from './db.mjs';
+import populateDatabase from './populateDB.mjs';
+import { getServices } from './services/serviceServices.mjs';
 
 const app = express();
 const port = 3001;
@@ -17,10 +20,16 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Sync database and create tables with associations
+await sequelize.sync({ force: true }).then(() => {
+  console.log('Database & tables created!');
+  populateDatabase();
+});
+
 // GET route for fetching available services
 app.get('/api/services', async (req, res) => {
   try {
-    const services = await getServicesFromDatabase();
+    const services = await getServices();
     res.json(services);
   } catch (error) {
     console.error('Error fetching services:', error);
@@ -51,10 +60,6 @@ app.listen(port, () => {
   console.log(`API server started at http://localhost:${port}`);
 });
 
-// Example database functions (to be replaced with your actual implementations)
-async function getServicesFromDatabase() {
-  // Your logic to fetch services from the database
-}
 
 async function createTicketInDatabase(serviceId, userId) {
   // Your logic to create a ticket in the database

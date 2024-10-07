@@ -1,7 +1,15 @@
-/** NEW **/
 import sqlite from 'sqlite3';
+import { Sequelize } from 'sequelize';
 
-// open the database
-export const db = new sqlite.Database('./db/db.db', (err) => {
-    if (err) throw err;
+// Open the SQLite database
+const db = new sqlite.Database('database.sqlite', // DB filename
+  (err) => { if (err) throw err; });
+
+// Create SQLite connection
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'database.sqlite', // Path to SQLite file
+  logging: false, // Disable logging  
 });
+
+export default sequelize;
