@@ -3,8 +3,10 @@ import morgan from "morgan";
 import cors from "cors";
 import sequelize from "./db.mjs";
 import populateDatabase from "./populateDB.mjs";
-import { getServices } from "./services/serviceServices.mjs";
-import { createTicketForService } from "./services/ticketServices.mjs";
+import {
+    getServices,
+    createTicketForService,
+} from "./services/queueManagementServices.mjs";
 
 const app = express();
 const port = 3001;
@@ -47,13 +49,13 @@ app.post("/api/tickets", async (req, res) => {
             return res.status(400).json({ message: "Service ID is required" });
         }
 
-        const newTicket = await createTicketForService(serviceId);
+        const { ticket, qrCodeUrl } = await createTicketForService(serviceId);
 
-        if (!newTicket) {
+        if (!ticket) {
             return res.status(404).json({ message: "Service not found" });
         }
 
-        res.status(201).json(newTicket); // 201 Created
+        res.status(201).json({ ticket, qrCodeUrl }); // 201 Created
     } catch (error) {
         console.error("Error creating ticket:", error);
         res.status(500).json({ error: "Internal server error" });
@@ -64,7 +66,3 @@ app.post("/api/tickets", async (req, res) => {
 app.listen(port, () => {
     console.log(`API server started at http://localhost:${port}`);
 });
-
-async function createTicketInDatabase(serviceId, userId) {
-    // Your logic to create a ticket in the database
-}

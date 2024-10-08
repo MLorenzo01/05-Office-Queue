@@ -1,12 +1,23 @@
+import QRCode from "qrcode";
 import ticketDao from "../dao/ticketDao.mjs";
 import serviceDao from "../dao/serviceDao.mjs";
+
+// Method to retrieve all services by interacting with the DAO
+export const getServices = async () => {
+    try {
+        const services = await serviceDao.getAllServices();
+        return services;
+    } catch (error) {
+        throw error;
+    }
+};
 
 export const createTicketForService = async (serviceId) => {
     try {
         // check if service exists
         const service = await serviceDao.getServiceById(serviceId);
         if (!service) {
-            return null; // Service not found
+            return { ticket: null, qrCodeUrl: null }; // Service not found
         }
 
         // get today last ticket for the service
@@ -14,14 +25,15 @@ export const createTicketForService = async (serviceId) => {
         const nextCode = lastTicket ? lastTicket.code + 1 : 1; // increment the last ticket code or start from 1
 
         // create new ticket
-        const newTicketData = {
+        const ticketData = {
             code: nextCode,
             serviceId,
             createdAt: new Date(),
         };
 
-        const newTicket = await ticketDao.createTicket(newTicketData);
-        return newTicket;
+        const ticket = await ticketDao.createTicket(ticketData);
+        const qrCodeUrl = await QRCode.toDataURL(`Ticket code: ${ticket.code}`);
+        return { ticket, qrCodeUrl };
     } catch (error) {
         throw error;
     }
