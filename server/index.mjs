@@ -9,7 +9,6 @@ import {
     createTicketForService,
     getCounters,
     getTicket,
-    FRONT_END_URL,
 } from "./services/queueManagementServices.mjs";
 
 const app = express();
@@ -19,13 +18,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("images"));
 
-// Set up and enable CORS
-const corsOptions = {
-    origin: `http://${FRONT_END_URL}`,
-    optionsSuccessStatus: 200,
-    credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Sync database and create tables with associations
 await sequelize.sync({ force: true }).then(() => {
