@@ -80,6 +80,11 @@ app.get("/api/counters", async (req, res) => {
     }
 });
 
+app.get("/api/counters/:id/next-customer", async (req, res) => {
+    // Implement this route
+    
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`API server started at http://localhost:${port}`);
