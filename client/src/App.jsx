@@ -5,6 +5,7 @@ import NotFound from './components/NotFoundComponent';
 import CustomerPage from './components/CustomerPage';
 import OfficerPage from './components/OfficerPage';
 import AdminPage from './components/AdminPage';
+import TicketDetails from './components/TicketDetails';
 import './App.css';
 
 function App() {
@@ -23,6 +24,9 @@ function App() {
 
           {/* Admin page route */}
           <Route path="admin" element={<AdminPage />} />
+
+          {/* Ticket details route */}
+          <Route path="tickets/:ticketId" element={<TicketDetails />} />
 
           {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFound />} />

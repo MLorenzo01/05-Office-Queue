@@ -1,6 +1,9 @@
 ### Get all services
 GET http://localhost:3001/api/services HTTP/1.1
 
+### Get service by id
+GET http://localhost:3001/api/services/1 HTTP/1.1
+
 ### Get all counters
 GET http://localhost:3001/api/counters HTTP/1.1
 
@@ -22,3 +25,10 @@ Content-Type: application/json
 {
     "serviceId": 1
 }
+
+### Get ticket by id
+GET http://localhost:3001/api/tickets/1 HTTP/1.1
+
+### Get ticket by id : error 404
+GET http://localhost:3001/api/tickets/1000 HTTP/1.1
+

@@ -4,9 +4,12 @@ import cors from "cors";
 import sequelize from "./db.mjs";
 import populateDatabase from "./populateDB.mjs";
 import {
+    getService,
     getServices,
     createTicketForService,
-    getCounters
+    getCounters,
+    getTicket,
+    FRONT_END_URL,
 } from "./services/queueManagementServices.mjs";
 
 const app = express();
@@ -18,7 +21,7 @@ app.use(express.static("images"));
 
 // Set up and enable CORS
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: `http://${FRONT_END_URL}`,
     optionsSuccessStatus: 200,
     credentials: true,
 };
@@ -37,6 +40,28 @@ app.get("/api/services", async (req, res) => {
         res.json(services);
     } catch (error) {
         console.error("Error fetching services:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+//GET route for fetching a specific service
+app.get("/api/services/:serviceId", async (req, res) => {
+    try {
+        const { serviceId } = req.params;
+
+        if (!serviceId) {
+            return res.status(400).json({ message: "Service ID is required" });
+        }
+
+        const service = await getService(serviceId);
+
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+
+        res.status(200).json(service); // 200 OK
+    } catch (error) {
+        console.error("Error fetching service:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
@@ -63,10 +88,31 @@ app.post("/api/tickets", async (req, res) => {
     }
 });
 
+// GET route to get the ticket details
+app.get("/api/tickets/:ticketId", async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+
+        if (!ticketId) {
+            return res.status(400).json({ message: "Ticket ID is required" });
+        }
+
+        const ticket = await getTicket(ticketId);
+
+        if (!ticket) {
+            return res.status(404).json({ message: "Ticket not found" });
+        }
+
+        res.status(200).json(ticket); // 200 OK
+    } catch (error) {
+        console.error("Error fetching ticket:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // GET route to get all the counters
 app.get("/api/counters", async (req, res) => {
     try {
-
         const counters = await getCounters();
 
         if (!counters || counters.length === 0) {
