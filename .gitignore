@@ -6,4 +6,4 @@ node_modules/
 Thumbs.db
 Desktop.ini
 
-server/*.sqlite
+server/database.sqlite
