@@ -3,7 +3,7 @@ const baseURL = "http://localhost:3001";
 // ----------------- SERVICES ----------------- //
 
 // Get all the available services
-export const getServices = async () => {
+const getServices = async () => {
   const response = await fetch(`${baseURL}/api/services`);
   if(response.ok){
     const services = await response.json();
@@ -17,7 +17,7 @@ export const getServices = async () => {
 // ----------------- TICKETS ----------------- //
 
 // Get the new tickets for a specific service
-export const takeTicket = async (serviceId, userId) => {
+const takeTicket = async (serviceId, userId) => {
   const response = await fetch(`${baseURL}/api/tickets`, {
     method: "POST",
     headers: {
@@ -35,7 +35,7 @@ export const takeTicket = async (serviceId, userId) => {
 }
 
 // Teke the waiting time for a specific ticket
-export const takeTime = async (ticketId) => {
+const takeTime = async (ticketId) => {
   const response = await fetch(`${baseURL}/api/waiting-time/${ticketId}`, {
     method: "GET",
     headers: {
@@ -54,7 +54,7 @@ export const takeTime = async (ticketId) => {
 // ----------------- CONFIGURATION ----------------- //
 
 // Configure the service with the number of counters
-export const configureService = async (serviceId, counterId) => {
+const configureService = async (serviceId, counterId) => {
   const response = await fetch(`${baseURL}/api/counters/config`, {
     method: "POST",
     headers: {
@@ -74,7 +74,7 @@ export const configureService = async (serviceId, counterId) => {
 // ----------------- STATS ----------------- //
 
 // Get the stats for all the services
-export const getStats = async () => {
+const getStats = async () => {
   const response = await fetch(`${baseURL}/api/stats`, {
     method: "GET",
     headers: {
@@ -91,7 +91,7 @@ export const getStats = async () => {
 }
 
 // See all the stats for a specific service
-export const getServiceStats = async (serviceId) => {
+const getServiceStats = async (serviceId) => {
   const response = await fetch(`${baseURL}/api/stats/${serviceId}`, {
     method: "GET",
     headers: {
@@ -109,7 +109,7 @@ export const getServiceStats = async (serviceId) => {
 
 // ----------------- COUNTERS ----------------- //
 
-export const getCounters = async () => {
+const getCounters = async () => {
   const response = await fetch(`${baseURL}/api/counters`, {
     method: "GET",
     headers: {
@@ -124,3 +124,14 @@ export const getCounters = async () => {
     throw errDetails;
 }
 }
+const API = {
+  getServices,
+  takeTicket,
+  takeTime,
+  configureService,
+  getStats,
+  getServiceStats,
+  getCounters,
+};
+
+export default API;
