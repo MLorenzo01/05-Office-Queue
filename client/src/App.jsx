@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
-import Homepage from './components/Homepage';
+import Homepage from './components/HomePage';
 import NotFound from './components/NotFoundComponent';
 import CustomerPage from './components/CustomerPage';
 import OfficerPage from './components/OfficerPage';
@@ -16,7 +16,7 @@ function App() {
           <Route index element={<Homepage />} />
 
           {/* Customer page route */}
-          <Route path="customer" element={<CustomerPage />} />
+          <Route path="/customer" element={<CustomerPage />} />
 
           {/* Officer page route */}
           <Route path="officer" element={<OfficerPage />} />

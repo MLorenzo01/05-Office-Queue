@@ -39,6 +39,10 @@
 - **response body**:
   - `200 OK` with statistics on service times and clients served.
 
+### GET `/api/stats/:serviceId`
+- **response body**
+  - `200 OK` with statistics on service time and client served for the specific service
+
 ## Database Tables
 
 - Table `services`: Stores information about available services.
