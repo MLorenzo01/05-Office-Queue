@@ -1,6 +1,7 @@
 import QRCode from "qrcode";
 import ticketDao from "../dao/ticketDao.mjs";
 import serviceDao from "../dao/serviceDao.mjs";
+import counterDao from "../dao/counterDao.mjs";
 
 // Method to retrieve all services by interacting with the DAO
 export const getServices = async () => {
@@ -34,6 +35,16 @@ export const createTicketForService = async (serviceId) => {
         const ticket = await ticketDao.createTicket(ticketData);
         const qrCodeUrl = await QRCode.toDataURL(`Ticket code: ${ticket.code}`);
         return { ticket, qrCodeUrl };
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Method to retrieve all counters by interacting with the DAO
+export const getCounters = async () => {
+    try {
+        const counters = await counterDao.getAllCounters();
+        return counters;
     } catch (error) {
         throw error;
     }

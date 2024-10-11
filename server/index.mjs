@@ -6,6 +6,7 @@ import populateDatabase from "./populateDB.mjs";
 import {
     getServices,
     createTicketForService,
+    getCounters
 } from "./services/queueManagementServices.mjs";
 
 const app = express();
@@ -58,6 +59,23 @@ app.post("/api/tickets", async (req, res) => {
         res.status(201).json({ ticket, qrCodeUrl }); // 201 Created
     } catch (error) {
         console.error("Error creating ticket:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// GET route to get all the counters
+app.get("/api/counters", async (req, res) => {
+    try {
+
+        const counters = await getCounters();
+
+        if (!counters || counters.length === 0) {
+            return res.status(404).json({ message: "No counters found" });
+        }
+
+        res.status(200).json(counters); // 200 OK
+    } catch (error) {
+        console.error("Error fetching counters:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
