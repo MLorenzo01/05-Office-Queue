@@ -12,6 +12,7 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from './components/Footer';
+import QueueList from './components/QueueList';
 
 function App() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function App() {
           <Navbar.Brand as={Link} to="/" style={{ cursor: 'pointer' }}>
             Home
           </Navbar.Brand>
-          <Navbar.Brand as={Link} to="/" style={{ cursor: 'pointer' }}>
+          <Navbar.Brand as={Link} to="/QueueList" style={{ cursor: 'pointer' }}>
             Queue Times
           </Navbar.Brand>
           <Nav className="ml-auto"> {/* Aligns the buttons to the right */}
@@ -48,6 +49,9 @@ function App() {
 
           {/* Admin page route */}
           <Route path="admin" element={<AdminPage />} />
+
+          {/* Queue list page route */}
+          <Route path="QueueList" element={<QueueList />} />
 
           {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFound />} />
