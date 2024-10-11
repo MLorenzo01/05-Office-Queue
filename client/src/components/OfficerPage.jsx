@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Spinner } from 'react-bootstrap';
 //import API.mjs;
+import API from '../API/API.mjs';
 
 function Officerpage() {
 
@@ -13,9 +14,8 @@ function Officerpage() {
     // Function to call the API and get counters
     const fetchCounters = async () => {
         try {
-            const response = API.getCounters();
-            const data = await response.json();
-            setCounters(data); // The answer is an array of counters
+            const response = await API.getCounters();
+            setCounters(response); // The answer is an array of counters
             setLoading(false);
         } catch (err) {
             setError(err.message);
