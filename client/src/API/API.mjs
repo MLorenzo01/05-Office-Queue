@@ -106,3 +106,21 @@ export const getServiceStats = async (serviceId) => {
     throw errDetails;
 }
 }
+
+// ----------------- COUNTERS ----------------- //
+
+export const getCounters = async () => {
+  const response = await fetch(`${baseURL}/api/counters`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if(response.ok){
+    const counters = await response.json();
+    return counters;
+} else {
+    const errDetails = await response.text();
+    throw errDetails;
+}
+}
