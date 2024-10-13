@@ -142,6 +142,10 @@ app.put("/api/counters/:id/disconnect", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+app.get("/api/counters/:id/next-customer", async (req, res) => {
+    // Implement this route
+    
+});
 
 // Start the server
 app.listen(port, () => {

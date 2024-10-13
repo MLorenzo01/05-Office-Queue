@@ -30,6 +30,21 @@ class TicketDao {
             throw error;
         }
     }
+
+    async getNextCustomerTicket(serviceId) {
+        try {
+            const nextTicket = await Ticket.findOne({
+                where: {
+                    serviceId,
+                    isServed: false,
+                },
+                order: [["createdAt", "ASC"]],
+            });
+            return nextTicket;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new TicketDao();

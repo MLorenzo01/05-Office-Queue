@@ -1,4 +1,5 @@
 import Counter from "../models/counter.mjs";
+import Service from "../models/service.mjs";
 
 class CounterDao {
 
@@ -43,7 +44,17 @@ class CounterDao {
             throw error;
         }
     }
-    
+
+    async getServiceByCounterId(id) {
+        try {
+            const counter = await Counter.findByPk(id, {
+                include: Service,
+            });
+            return counter ? counter.Services : null;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new CounterDao();
