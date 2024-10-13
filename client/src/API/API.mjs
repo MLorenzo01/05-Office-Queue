@@ -65,10 +65,10 @@ const configureService = async (serviceId, counterId) => {
   if(response.ok){
     const service = await response.json();
     return service;
-} else {
-    const errDetails = await response.text();
-    throw errDetails;
-}
+  } else {
+      const errDetails = await response.text();
+      throw errDetails;
+  }
 }
 
 // ----------------- STATS ----------------- //
@@ -119,11 +119,68 @@ const getCounters = async () => {
   if(response.ok){
     const counters = await response.json();
     return counters;
-} else {
-    const errDetails = await response.text();
-    throw errDetails;
+  } else {
+      const errDetails = await response.text();
+      throw errDetails;
+  }
 }
+
+const getAvailablesCounters = async () => {
+  const response = await fetch(`${baseURL}/api/availables-counters`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if(response.ok){
+    const counters = await response.json();
+    return counters;
+  } else {
+      const errDetails = await response.text();
+      throw errDetails;
+  }
 }
+
+const counterOccupied = async (counterId) => {
+  const response = await fetch(`${baseURL}/api/counters/${counterId}/occupy`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ isOccupied: true }),
+  });
+
+  if(response.ok){
+    const updatedCounter = await response.json();
+   
+    console.log(updatedCounter);
+    
+    return updatedCounter;
+
+  } else {
+      const errDetails = await response.text();
+      throw errDetails;
+  }
+}
+
+const disconnectCounter = async (counterId) => {
+  const response = await fetch(`${baseURL}/api/counters/${counterId}/disconnect`, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isOccupied: false }), // Imposta isOccupied su false
+  });
+
+  if (response.ok) {
+      const updatedCounter = await response.json();
+      return updatedCounter; // Returns the updated counter
+  } else {
+      const errDetails = await response.text();
+      throw new Error(errDetails);
+  }
+};
+
 const API = {
   getServices,
   takeTicket,
@@ -132,6 +189,9 @@ const API = {
   getStats,
   getServiceStats,
   getCounters,
+  getAvailablesCounters,
+  counterOccupied,
+  disconnectCounter
 };
 
 export default API;

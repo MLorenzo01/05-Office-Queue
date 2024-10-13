@@ -49,3 +49,33 @@ export const getCounters = async () => {
         throw error;
     }
 };
+
+// Method to retrieve all availables counters by interacting with the DAO
+export const getAvailablesCounters = async () => {
+    try {
+        const counters = await counterDao.getAvailablesCounters();
+        return counters;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Method for updating (true) the isOccupied attribute of a counter
+export const updateOccupiedCounter = async (counterId) => {
+    try {
+        const counter = await counterDao.updateIsOccupiedCounter(counterId, true);
+        return counter;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Method for updating (false) the isOccupied attribute of a counter
+export const updateDisconnectedCounter = async (counterId) => {
+    try {
+        const counter = await counterDao.updateIsOccupiedCounter(counterId, false); // Also pass false to update isOccupied
+        return counter;
+    } catch (error) {
+        throw error;
+    }
+};

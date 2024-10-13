@@ -19,9 +19,9 @@ const populateDatabase = async () => {
 
     // Sample data for counters
     const counters = [
-      {number: 1},
-      {number: 2},
-      {number: 3},
+      {number: 1, isOccupied: false},
+      {number: 2, isOccupied: false},
+      {number: 3, isOccupied: false},
     ];
 
     // Insert counters

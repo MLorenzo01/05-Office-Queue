@@ -11,6 +11,10 @@ const Counter = sequelize.define('Counter', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  isOccupied: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 }, {
   timestamps: false,
 });
