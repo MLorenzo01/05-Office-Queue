@@ -29,17 +29,23 @@ class CounterDao {
 
     // Method for updating the isOccupied attribute of a counter
     async updateIsOccupiedCounter(counterId, isOccupied) {
-        try {
-            const updatedCounter = await Counter.findByIdAndUpdate(
-                counterId,
+            try {
+                const counter = await Counter.findByPk(counterId);
+            
+            if (!counter) {
+                return null; // If the counter is not found, returns null
+            }
+
+            const operation = await Counter.update(
                 { isOccupied: isOccupied },
-                { new: true } // Returns the updated document
+                { 
+                    where: {id: counterId},
+                    returning: true // Returns the updated record
+                }
             );
            
-            console.log("Updated Counter:", updatedCounter);
-
-            // Returns the updated counter (or null if not found)
-            return updatedCounter;
+            // Returns the updated counter 
+            return ((await Counter.findByPk(counterId)).dataValues); //ex: { id: 1, number: 1, isOccupied: true }
         } catch (error) {
             throw error;
         }

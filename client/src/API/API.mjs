@@ -147,16 +147,11 @@ const counterOccupied = async (counterId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ isOccupied: true }),
   });
 
   if(response.ok){
     const updatedCounter = await response.json();
-   
-    console.log(updatedCounter);
-    
     return updatedCounter;
-
   } else {
       const errDetails = await response.text();
       throw errDetails;
@@ -169,7 +164,6 @@ const disconnectCounter = async (counterId) => {
       headers: {
           "Content-Type": "application/json",
       },
-      body: JSON.stringify({ isOccupied: false }), // Imposta isOccupied su false
   });
 
   if (response.ok) {

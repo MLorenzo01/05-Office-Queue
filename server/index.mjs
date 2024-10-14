@@ -102,22 +102,22 @@ app.get("/api/availables-counters", async (req, res) => {
 
 // PUT route for update isOccupied attribute of a counter
 app.put("/api/counters/:id/occupy", async (req, res) => {
+        
     try {
         const counterId = req.params.id;
-        console.log(counterId);
+
         if (!counterId) {
             return res.status(400).json({ message: "Counter ID is required" });
         }
 
         const counter = await updateOccupiedCounter(counterId);
-        console.log(counter);
+
         if (!counter) {
             return res.status(404).json({ message: "Counter not found" });
         }
 
         res.status(200).json(counter);
     } catch (error) {
-        console.error("Error update counter:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
@@ -138,10 +138,10 @@ app.put("/api/counters/:id/disconnect", async (req, res) => {
 
         res.status(200).json(counter);
     } catch (error) {
-        console.error("Error disconnecting counter:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
 app.get("/api/counters/:id/next-customer", async (req, res) => {
     // Implement this route
     

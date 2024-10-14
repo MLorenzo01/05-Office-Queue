@@ -63,8 +63,8 @@ export const getAvailablesCounters = async () => {
 // Method for updating (true) the isOccupied attribute of a counter
 export const updateOccupiedCounter = async (counterId) => {
     try {
-        const counter = await counterDao.updateIsOccupiedCounter(counterId, true);
-        return counter;
+        const response = await counterDao.updateIsOccupiedCounter(counterId, true);
+        return response;
     } catch (error) {
         throw error;
     }

@@ -13,7 +13,7 @@ const Counter = sequelize.define('Counter', {
   },
   isOccupied: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    defaultValue: false
   },
 }, {
   timestamps: false,
