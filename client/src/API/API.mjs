@@ -3,7 +3,7 @@ const baseURL = "http://localhost:3001";
 // ----------------- SERVICES ----------------- //
 
 // Get all the available services
-export const getServices = async () => {
+const getServices = async () => {
     const response = await fetch(`${baseURL}/api/services`);
     if (response.ok) {
         const services = await response.json();
@@ -15,7 +15,7 @@ export const getServices = async () => {
 };
 
 //get the service for a specific serviceId
-export const getService = async (serviceId) => {
+const getService = async (serviceId) => {
     const response = await fetch(`${baseURL}/api/services/${serviceId}`, {
         method: "GET",
         headers: {
@@ -34,7 +34,7 @@ export const getService = async (serviceId) => {
 // ----------------- TICKETS ----------------- //
 
 // Get the new tickets for a specific service
-export const takeTicket = async (serviceId) => {
+const takeTicket = async (serviceId) => {
     const response = await fetch(`${baseURL}/api/tickets`, {
         method: "POST",
         headers: {
@@ -52,7 +52,7 @@ export const takeTicket = async (serviceId) => {
 };
 
 //get the ticket for a specific ticketId
-export const getTicket = async (ticketId) => {
+const getTicket = async (ticketId) => {
     const response = await fetch(`${baseURL}/api/tickets/${ticketId}`, {
         method: "GET",
         headers: {
@@ -69,7 +69,7 @@ export const getTicket = async (ticketId) => {
 };
 
 // Teke the waiting time for a specific ticket
-export const takeTime = async (ticketId) => {
+const takeTime = async (ticketId) => {
     const response = await fetch(`${baseURL}/api/waiting-time/${ticketId}`, {
         method: "GET",
         headers: {
@@ -88,7 +88,7 @@ export const takeTime = async (ticketId) => {
 // ----------------- CONFIGURATION ----------------- //
 
 // Configure the service with the number of counters
-export const configureService = async (serviceId, counterId) => {
+const configureService = async (serviceId, counterId) => {
     const response = await fetch(`${baseURL}/api/counters/config`, {
         method: "POST",
         headers: {
@@ -108,7 +108,7 @@ export const configureService = async (serviceId, counterId) => {
 // ----------------- STATS ----------------- //
 
 // Get the stats for all the services
-export const getStats = async () => {
+const getStats = async () => {
     const response = await fetch(`${baseURL}/api/stats`, {
         method: "GET",
         headers: {
@@ -125,7 +125,7 @@ export const getStats = async () => {
 };
 
 // See all the stats for a specific service
-export const getServiceStats = async (serviceId) => {
+const getServiceStats = async (serviceId) => {
     const response = await fetch(`${baseURL}/api/stats/${serviceId}`, {
         method: "GET",
         headers: {
@@ -143,7 +143,7 @@ export const getServiceStats = async (serviceId) => {
 
 // ----------------- COUNTERS ----------------- //
 
-export const getCounters = async () => {
+const getCounters = async () => {
     const response = await fetch(`${baseURL}/api/counters`, {
         method: "GET",
         headers: {
@@ -158,3 +158,76 @@ export const getCounters = async () => {
         throw errDetails;
     }
 };
+
+const getAvailablesCounters = async () => {
+    const response = await fetch(`${baseURL}/api/availables-counters`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (response.ok) {
+        const counters = await response.json();
+        return counters;
+    } else {
+        const errDetails = await response.text();
+        throw errDetails;
+    }
+};
+
+const counterOccupied = async (counterId) => {
+    const response = await fetch(
+        `${baseURL}/api/counters/${counterId}/occupy`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    if (response.ok) {
+        const updatedCounter = await response.json();
+        return updatedCounter;
+    } else {
+        const errDetails = await response.text();
+        throw errDetails;
+    }
+};
+
+const disconnectCounter = async (counterId) => {
+    const response = await fetch(
+        `${baseURL}/api/counters/${counterId}/disconnect`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    if (response.ok) {
+        const updatedCounter = await response.json();
+        return updatedCounter; // Returns the updated counter
+    } else {
+        const errDetails = await response.text();
+        throw new Error(errDetails);
+    }
+};
+
+const API = {
+    getServices,
+    getService,
+    takeTicket,
+    takeTime,
+    configureService,
+    getStats,
+    getServiceStats,
+    getCounters,
+    getTicket,
+    getAvailablesCounters,
+    counterOccupied,
+    disconnectCounter,
+};
+
+export default API;

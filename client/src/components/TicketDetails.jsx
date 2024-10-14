@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { getTicket, getService } from "../API/API.mjs";
+import API from "../API/API.mjs";
 
 function TicketDetails() {
     const { ticketId } = useParams(); // Get the ticketId from the route
@@ -14,12 +14,14 @@ function TicketDetails() {
     useEffect(() => {
         const fetchTicketAndService = async () => {
             try {
-                const ticketData = await getTicket(ticketId); // Use the getTicket method
+                const ticketData = await API.getTicket(ticketId); // Use the getTicket method
                 setTicket(ticketData);
 
                 // Fetch the service based on the ticket's serviceId
                 if (ticketData && ticketData.serviceId) {
-                    const serviceData = await getService(ticketData.serviceId);
+                    const serviceData = await API.getService(
+                        ticketData.serviceId
+                    );
                     setService(serviceData);
                 }
                 setLoading(false);

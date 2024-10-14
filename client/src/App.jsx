@@ -11,7 +11,6 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import TicketDetails from "./components/TicketDetails";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "./components/Footer";
 import QueueList from "./components/QueueList";
@@ -41,7 +40,6 @@ function App() {
                         Queue Times
                     </Navbar.Brand>
                     <Nav className="ml-auto">
-                        {" "}
                         {/* Aligns the buttons to the right */}
                         <Button
                             variant="outline-primary"
