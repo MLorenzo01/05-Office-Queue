@@ -40,6 +40,16 @@ export const createTicketForService = async (serviceId) => {
     }
 };
 
+// Method to retrieve all served tickets by interacting with the DAO
+export const getServedTickets = async () => {
+    try {
+        const tickets = await ticketDao.getServedTickets();
+        return tickets;
+    } catch (error) {
+        throw error;
+    }
+};
+
 // Method to retrieve all counters by interacting with the DAO
 export const getCounters = async () => {
     try {

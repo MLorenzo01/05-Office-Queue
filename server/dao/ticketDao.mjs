@@ -45,6 +45,19 @@ class TicketDao {
             throw error;
         }
     }
+
+    async getServedTickets() {
+        try {
+            const tickets = await Ticket.findAll({
+                where: { isServed: true },
+                order: [['servedNow', 'DESC']], // Sort by newest ticket first
+            });
+            console.log(tickets);
+            return tickets;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default new TicketDao();

@@ -34,7 +34,7 @@ const takeTicket = async (serviceId, userId) => {
 }
 }
 
-// Teke the waiting time for a specific ticket
+// Take the waiting time for a specific ticket
 const takeTime = async (ticketId) => {
   const response = await fetch(`${baseURL}/api/waiting-time/${ticketId}`, {
     method: "GET",
@@ -50,6 +50,24 @@ const takeTime = async (ticketId) => {
     throw errDetails;
 }
 }
+
+// GET all the tickets with isServed=true
+const getServedTickets = async () => {
+  const response = await fetch(`${baseURL}/api/all-served-tickets`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if(response.ok){
+    const tickets = await response.json();
+    return tickets;
+  } else {
+      const errDetails = await response.text();
+      throw errDetails;
+  }
+}
+
 
 // ----------------- CONFIGURATION ----------------- //
 
@@ -179,6 +197,7 @@ const API = {
   getServices,
   takeTicket,
   takeTime,
+  getServedTickets,
   configureService,
   getStats,
   getServiceStats,

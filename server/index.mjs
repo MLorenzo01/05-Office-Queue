@@ -6,6 +6,7 @@ import populateDatabase from "./populateDB.mjs";
 import {
     getServices,
     createTicketForService,
+    getServedTickets,
     getCounters,
     getAvailablesCounters,
     updateOccupiedCounter,
@@ -66,6 +67,23 @@ app.post("/api/tickets", async (req, res) => {
     }
 });
 
+// GET route to get all the served tickets
+app.get("/api/all-served-tickets", async (req, res) => {
+    try {
+
+        const tickets = await getServedTickets();
+
+        if (!tickets || tickets.length === 0) {
+            return res.status(404).json({ message: "No tickets found" });
+        }
+
+        res.status(200).json(tickets); // 200 OK
+    } catch (error) {
+        console.error("Error fetching served tickets:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // GET route to get all the counters
 app.get("/api/counters", async (req, res) => {
     try {
@@ -78,7 +96,6 @@ app.get("/api/counters", async (req, res) => {
 
         res.status(200).json(counters); // 200 OK
     } catch (error) {
-        console.error("Error fetching counters:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
@@ -95,7 +112,6 @@ app.get("/api/availables-counters", async (req, res) => {
 
         res.status(200).json(counters); // 200 OK
     } catch (error) {
-        console.error("Error fetching counters:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
