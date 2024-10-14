@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
-import { getServices, getCounters, takeTicket } from '../API/API.mjs'; // API per i servizi
+//import { getServices, getCounters, takeTicket } from '../API/API.mjs';
+import API from '../API/API.mjs';// API per i servizi
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +14,7 @@ function Customerpage() {
     useEffect(() => {
         const fetchCounters = async () => {
             try {
-                const countersData = await getCounters();
+                const countersData = await API.getCounters();
                 setCounters(countersData);
             } catch (error) {
                 console.error('Error fetching counters:', error);
@@ -22,7 +23,7 @@ function Customerpage() {
 
         const fetchServices = async () => {
             try {
-                const servicesData = await getServices();
+                const servicesData = await API.getServices();
                 setServices(servicesData);
             } catch (error) {
                 console.error('Error fetching services:', error);
@@ -35,7 +36,7 @@ function Customerpage() {
 
     const handleCardClick = async (serviceId) => {
         try {
-            const ticket = await takeTicket(serviceId, 1);
+            const ticket = await API.takeTicket(serviceId, 1);
             console.log('Ticket taken:', ticket);
 
             navigate('/queueList');

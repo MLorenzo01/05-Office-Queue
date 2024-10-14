@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
-import { getServices } from '../API/API.mjs';
+import API from '../API/API.mjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function QueueList() {
@@ -10,7 +10,7 @@ function QueueList() {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const servicesData = await getServices();
+                const servicesData = await API.getServices();
                 setServices(servicesData);
             } catch (error) {
                 console.error('Error fetching services:', error);
