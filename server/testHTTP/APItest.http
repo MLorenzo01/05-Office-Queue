@@ -1,8 +1,38 @@
 ### Get all services
 GET http://localhost:3001/api/services HTTP/1.1
 
+### Get service by id
+GET http://localhost:3001/api/services/1 HTTP/1.1
+
 ### Get all counters
 GET http://localhost:3001/api/counters HTTP/1.1
+
+### Post a new ticket without serviceId : error 400
+POST http://localhost:3001/api/tickets HTTP/1.1
+
+### Post a new ticket with unknown serviceId : error 404
+POST http://localhost:3001/api/tickets HTTP/1.1
+content-type: application/json
+
+{
+    "serviceId": 1000
+}
+
+### Post a new ticket with serviceId : success 201
+POST http://localhost:3001/api/tickets HTTP/1.1
+Content-Type: application/json
+
+{
+    "serviceId": 1
+}
+
+### Get ticket by id
+GET http://localhost:3001/api/tickets/1 HTTP/1.1
+
+### Get ticket by id : error 404
+GET http://localhost:3001/api/tickets/1000 HTTP/1.1
+
+
 
 ### counter is Occupied
 PUT http://localhost:3001/api/counters/2/occupy HTTP/1.1

@@ -3,11 +3,23 @@ import ticketDao from "../dao/ticketDao.mjs";
 import serviceDao from "../dao/serviceDao.mjs";
 import counterDao from "../dao/counterDao.mjs";
 
+export const FRONT_END_URL = "localhost:5173";
+
 // Method to retrieve all services by interacting with the DAO
 export const getServices = async () => {
     try {
         const services = await serviceDao.getAllServices();
         return services;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// Method to retrieve a specific service
+export const getService = async (serviceId) => {
+    try {
+        const service = await serviceDao.getServiceById(serviceId);
+        return service;
     } catch (error) {
         throw error;
     }
@@ -33,7 +45,9 @@ export const createTicketForService = async (serviceId) => {
         };
 
         const ticket = await ticketDao.createTicket(ticketData);
-        const qrCodeUrl = await QRCode.toDataURL(`Ticket code: ${ticket.code}`);
+        const qrCodeUrl = await QRCode.toDataURL(
+            `http://${FRONT_END_URL}/tickets/${ticket.id}`
+        ); // await QRCode.toDataURL(`Ticket code: ${ticket.code}`);
         return { ticket, qrCodeUrl };
     } catch (error) {
         throw error;
@@ -45,6 +59,15 @@ export const getServedTickets = async () => {
     try {
         const tickets = await ticketDao.getServedTickets();
         return tickets;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getTicket = async (ticketId) => {
+    try {
+        const ticket = await ticketDao.getTicketById(ticketId);
+        return ticket;
     } catch (error) {
         throw error;
     }
@@ -73,7 +96,10 @@ export const getAvailablesCounters = async () => {
 // Method for updating (true) the isOccupied attribute of a counter
 export const updateOccupiedCounter = async (counterId) => {
     try {
-        const response = await counterDao.updateIsOccupiedCounter(counterId, true);
+        const response = await counterDao.updateIsOccupiedCounter(
+            counterId,
+            true
+        );
         return response;
     } catch (error) {
         throw error;
@@ -83,7 +109,10 @@ export const updateOccupiedCounter = async (counterId) => {
 // Method for updating (false) the isOccupied attribute of a counter
 export const updateDisconnectedCounter = async (counterId) => {
     try {
-        const counter = await counterDao.updateIsOccupiedCounter(counterId, false); // Also pass false to update isOccupied
+        const counter = await counterDao.updateIsOccupiedCounter(
+            counterId,
+            false
+        ); // Also pass false to update isOccupied
         return counter;
     } catch (error) {
         throw error;

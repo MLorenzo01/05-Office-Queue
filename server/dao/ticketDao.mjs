@@ -2,6 +2,16 @@ import Ticket from "../models/ticket.mjs";
 import { Op } from "sequelize";
 
 class TicketDao {
+    // Method to get a ticket by ID
+    async getTicketById(ticketId) {
+        try {
+            const ticket = await Ticket.findByPk(ticketId);
+            return ticket;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Method to create a new ticket
     async createTicket(ticketData) {
         try {
