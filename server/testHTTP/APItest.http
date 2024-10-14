@@ -32,3 +32,10 @@ GET http://localhost:3001/api/tickets/1 HTTP/1.1
 ### Get ticket by id : error 404
 GET http://localhost:3001/api/tickets/1000 HTTP/1.1
 
+
+
+### counter is Occupied
+PUT http://localhost:3001/api/counters/2/occupy HTTP/1.1
+
+### disconnect Counter
+PUT http://localhost:3001/api/counters/2/disconnect HTTP/1.1

@@ -8,6 +8,9 @@ import {
     getServices,
     createTicketForService,
     getCounters,
+    getAvailablesCounters,
+    updateOccupiedCounter,
+    updateDisconnectedCounter,
     getTicket,
 } from "./services/queueManagementServices.mjs";
 
@@ -117,6 +120,67 @@ app.get("/api/counters", async (req, res) => {
         console.error("Error fetching counters:", error);
         res.status(500).json({ error: "Internal server error" });
     }
+});
+
+// GET route to get all the availables counters
+app.get("/api/availables-counters", async (req, res) => {
+    try {
+        const counters = await getAvailablesCounters();
+
+        if (!counters || counters.length === 0) {
+            return res.status(404).json({ message: "No counters found" });
+        }
+
+        res.status(200).json(counters); // 200 OK
+    } catch (error) {
+        console.error("Error fetching counters:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// PUT route for update isOccupied attribute of a counter
+app.put("/api/counters/:id/occupy", async (req, res) => {
+    try {
+        const counterId = req.params.id;
+
+        if (!counterId) {
+            return res.status(400).json({ message: "Counter ID is required" });
+        }
+
+        const counter = await updateOccupiedCounter(counterId);
+
+        if (!counter) {
+            return res.status(404).json({ message: "Counter not found" });
+        }
+
+        res.status(200).json(counter);
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.put("/api/counters/:id/disconnect", async (req, res) => {
+    try {
+        const counterId = req.params.id;
+
+        if (!counterId) {
+            return res.status(400).json({ message: "Counter ID is required" });
+        }
+
+        const counter = await updateDisconnectedCounter(counterId);
+
+        if (!counter) {
+            return res.status(404).json({ message: "Counter not found" });
+        }
+
+        res.status(200).json(counter);
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.get("/api/counters/:id/next-customer", async (req, res) => {
+    // Implement this route
 });
 
 // Start the server

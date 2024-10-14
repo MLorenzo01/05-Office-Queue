@@ -8,9 +8,9 @@ const populateDatabase = async () => {
   try {
     // Sample data for services
     const services = [
-      { name: 'Service A', estimatedTime: 30 },
-      { name: 'Service B', estimatedTime: 45 },
-      { name: 'Service C', estimatedTime: 60 },
+      { name: 'Shipping', estimatedTime: 30 },
+      { name: 'Account management', estimatedTime: 45 },
+      { name: 'Pickup Service', estimatedTime: 60 },
     ];
 
     // Insert services
@@ -19,9 +19,9 @@ const populateDatabase = async () => {
 
     // Sample data for counters
     const counters = [
-      {number: 1},
-      {number: 2},
-      {number: 3},
+      {number: 1, isOccupied: false},
+      {number: 2, isOccupied: false},
+      {number: 3, isOccupied: false},
     ];
 
     // Insert counters
@@ -30,13 +30,13 @@ const populateDatabase = async () => {
 
     // Sample data for counter services (many-to-many relationship)
     const counterServices = [
-        { counterId: insertedCounters[0].id, serviceId: insertedServices[0].id },
-        { counterId: insertedCounters[1].id, serviceId: insertedServices[1].id },
-        { counterId: insertedCounters[1].id, serviceId: insertedServices[2].id },
-        { counterId: insertedCounters[2].id, serviceId: insertedServices[0].id },
-        { counterId: insertedCounters[2].id, serviceId: insertedServices[2].id },
+      { counterId: insertedCounters[0].id, serviceId: insertedServices[0].id },
+      { counterId: insertedCounters[1].id, serviceId: insertedServices[1].id },
+      { counterId: insertedCounters[1].id, serviceId: insertedServices[2].id },
+      { counterId: insertedCounters[2].id, serviceId: insertedServices[0].id },
+      { counterId: insertedCounters[2].id, serviceId: insertedServices[2].id },
     ];
-    
+
 
     // Insert counter services
     await CounterService.bulkCreate(counterServices);

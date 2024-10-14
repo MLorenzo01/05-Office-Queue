@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, Spinner } from 'react-bootstrap';
-//import API.mjs;
+import { Container, Button, Spinner, Col, Row } from 'react-bootstrap';
+import API from '../API/API.mjs';
 
 function Officerpage() {
 
@@ -11,11 +11,10 @@ function Officerpage() {
     const [error, setError] = useState(null);
 
     // Function to call the API and get counters
-    const fetchCounters = async () => {
+    const fetchAvailablesCounters = async () => {
         try {
-            const response = API.getCounters();
-            const data = await response.json();
-            setCounters(data); // The answer is an array of counters
+            const response = await API.getAvailablesCounters();
+            setCounters(response); // The answer is an array of counters
             setLoading(false);
         } catch (err) {
             setError(err.message);
@@ -24,11 +23,32 @@ function Officerpage() {
     };
 
     useEffect(() => {
-        fetchCounters();
+        fetchAvailablesCounters();
     }, []);
 
-    const handleSelectCounter = (counter) => {
-        setSelectedCounter(counter);
+    const handleSelectCounter = async (counter) => {
+        try {
+            const updatedCounter = await API.counterOccupied(counter.id);
+        
+            if (updatedCounter) {
+                setSelectedCounter(updatedCounter);
+            }
+        } catch (error) {
+            setError(error);
+        }
+    };
+
+    const disconnectCounter = async () => {
+        if (selectedCounter) {
+            try {
+                // Call the API to set isOccupied to false
+                await API.disconnectCounter(selectedCounter.id);
+                // Reset the state of the selected counter
+                setSelectedCounter(null); // Return to counter selection
+            } catch (error) {
+                setError(error);
+            }
+        }
     };
 
     const handleNextClient = () => {
@@ -57,13 +77,30 @@ function Officerpage() {
                     ))}
                 </div>
             ) : (
-                <div>
-                    <h2>Counter selected: {selectedCounter.number}</h2>
-                    <Button onClick={handleNextClient} variant="success">
-                    Call the next customer
-                    </Button>
-                    <p className="mt-3">Current customer: {clientNumber}</p>
-                </div>
+                !loading && selectedCounter && (
+                    <div>
+                        <Row className="d-flex align-items-center justify-content-center mt-3">
+                            <Col md="auto">
+                                <h2 className="mr-2">Counter selected: {selectedCounter.number}</h2>
+                            </Col>
+                            <Col md="auto">
+                                <Button onClick={disconnectCounter} variant="danger">
+                                    Disconnect
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row className="d-flex align-items-center justify-content-center mt-3">
+                            <Col md="auto">
+                                <p className="mt-3">Current customer: {clientNumber}</p>
+                            </Col>
+                            <Col md="auto">
+                                <Button onClick={handleNextClient} variant="success">
+                                    Call the next customer
+                                </Button>
+                            </Col>
+                        </Row>
+                    </div>
+                )
             )}
         </Container>
     );
