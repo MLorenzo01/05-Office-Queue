@@ -117,6 +117,7 @@ export const updateDisconnectedCounter = async (counterId) => {
     } catch (error) {
         throw error;
     }
+};
 
     // Method to get the next customer for a counter
 export const getNextCustomerForCounter = async (counterId) => {
