@@ -6,6 +6,15 @@ import { Op } from "sequelize";
 import sequelize from "../db.mjs";
 
 class TicketDao {
+    // Method to get a ticket by ID
+    async getTicketById(ticketId) {
+        try {
+            const ticket = await Ticket.findByPk(ticketId);
+            return ticket;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     // Method to create a new ticket
     async createTicket(ticketData) {
@@ -122,17 +131,14 @@ class TicketDao {
         }
     }
 
-    async setNextTicketToServed(ticketId) {
+    async getServedTickets() {
         try {
-            const ticket = await Ticket.findByPk(ticketId);
-            if (!ticket) {
-                return null;
-            }
-
-            ticket.isServed = true;
-            ticket.servedAt = new Date();
-            await ticket.save();
-            return ticket;
+            const tickets = await Ticket.findAll({
+                where: { isServed: true },
+                order: [['servedNow', 'DESC']], // Sort by newest ticket first
+            });
+            console.log(tickets);
+            return tickets;
         } catch (error) {
             throw error;
         }
