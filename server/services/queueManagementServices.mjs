@@ -49,3 +49,19 @@ export const getCounters = async () => {
         throw error;
     }
 };
+
+// Method to get the next customer for a counter
+export const getNextCustomerForCounter = async (counterId) => {
+    try {
+        //const services = await counterDao.getServiceByCounterId(counterId);
+        const service = await ticketDao.getServiceWithMaxEstimatedTime(counterId);
+        if (!service) {
+            return null; // No services found for the counter
+        }
+        // get the next ticket for the service
+        const ticket = await ticketDao.takeTicketToServed(service.serviceId);
+        return ticket;
+    } catch (error) {
+        throw error;
+    }
+};

@@ -6,7 +6,8 @@ import populateDatabase from "./populateDB.mjs";
 import {
     getServices,
     createTicketForService,
-    getCounters
+    getCounters,
+    getNextCustomerForCounter
 } from "./services/queueManagementServices.mjs";
 
 const app = express();
@@ -82,7 +83,17 @@ app.get("/api/counters", async (req, res) => {
 
 app.get("/api/counters/:id/next-customer", async (req, res) => {
     // Implement this route
-    
+    try {
+        const { id } = req.params;
+        const ticketNextCustomer = await getNextCustomerForCounter(id);
+        if (!ticketNextCustomer) {
+            return res.status(404).json({ message: "No customer found" });
+        }
+        res.status(200).json(ticketNextCustomer);
+    } catch (error) {
+        console.error("Error fetching next customer:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 // Start the server
