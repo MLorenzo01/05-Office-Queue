@@ -57,12 +57,11 @@ function Customerpage() {
                                 style={{ width: '18rem', transition: 'transform 0.2s ease-in-out' }}
                                 onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
                                 onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-                                onClick={() => handleCardClick(counter.id, services[index]?.id)} // Passa counter e service id
+                                onClick={() => handleCardClick(counter.id, services[index]?.id)}
                             >
                                 <Card.Body>
-                                    <Card.Title>Counter {counter.id}</Card.Title>
-                                    <Card.Text>Service: {services[index]?.name || 'N/A'}</Card.Text>
-                                    <Card.Text>Estimated Time: {counter.estimatedTime} minutes</Card.Text>
+                                    <Card.Title>Service: {services[index]?.name || 'N/A'}</Card.Title>
+                                    <Card.Text>Estimated Time: {services[index]?.estimatedTime} minutes</Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>
