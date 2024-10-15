@@ -3,7 +3,6 @@ import { Container, Card, Spinner, Col, Row, Button } from 'react-bootstrap';
 import API from '../API/API.mjs';
 
 function Officerpage() {
-
     const [selectedCounter, setSelectedCounter] = useState(null);
     const [clientNumber, setClientNumber] = useState(0);
     const [counters, setCounters] = useState([]); // Available counters
@@ -63,46 +62,49 @@ function Officerpage() {
                 <p>{error}</p>
             ) : (
                 <div>
-                    <Row className="w-100 justify-content-center">
-                        {counters.map((counter) => (
-                            <Col key={counter.id} sm={12} md={6} lg={4} className="mb-4 d-flex justify-content-center">
-                                <Card
-                                    className="shadow-sm text-center"
-                                    style={{
-                                        width: '18rem',
-                                        transition: 'transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out',
-                                        cursor: 'pointer',
-                                        backgroundColor: selectedCounter?.id === counter.id ? '#f8f9fa' : '#fff',
-                                        borderColor: selectedCounter?.id === counter.id ? '#007bff' : '#dee2e6'
-                                    }}
-                                    onMouseEnter={e => {
-                                        e.currentTarget.style.transform = "scale(1.05)";
-                                        e.currentTarget.style.boxShadow = "0px 4px 15px rgba(0, 0, 0, 0.2)";
-                                    }}
-                                    onMouseLeave={e => {
-                                        e.currentTarget.style.transform = "scale(1)";
-                                        e.currentTarget.style.boxShadow = "none";
-                                    }}
-                                    onClick={() => handleSelectCounter(counter)} // Select the counter
-                                >
-                                    <Card.Body>
-                                        <Card.Title>Counter {counter.number}</Card.Title>
-                                        <Card.Text>
-                                            {counter.isOccupied ? (
-                                                // No badge for occupied counters
-                                                <span></span>
-                                            ) : (
-                                                <span className="badge bg-success">Available</span> // Only green badge for available counters
-                                            )}
-                                            <br />
-                                            Click to select this counter
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                    {selectedCounter && (
+                    {/* Render counters only if no counter is selected */}
+                    {!selectedCounter ? (
+                        <Row className="w-100 justify-content-center">
+                            {counters.map((counter) => (
+                                <Col key={counter.id} sm={12} md={6} lg={4} className="mb-4 d-flex justify-content-center">
+                                    <Card
+                                        className="shadow-sm text-center"
+                                        style={{
+                                            width: '18rem',
+                                            transition: 'transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out',
+                                            cursor: 'pointer',
+                                            backgroundColor: selectedCounter?.id === counter.id ? '#f8f9fa' : '#fff',
+                                            borderColor: selectedCounter?.id === counter.id ? '#007bff' : '#dee2e6'
+                                        }}
+                                        onMouseEnter={e => {
+                                            e.currentTarget.style.transform = "scale(1.05)";
+                                            e.currentTarget.style.boxShadow = "0px 4px 15px rgba(0, 0, 0, 0.2)";
+                                        }}
+                                        onMouseLeave={e => {
+                                            e.currentTarget.style.transform = "scale(1)";
+                                            e.currentTarget.style.boxShadow = "none";
+                                        }}
+                                        onClick={() => handleSelectCounter(counter)} // Select the counter
+                                    >
+                                        <Card.Body>
+                                            <Card.Title>Counter {counter.number}</Card.Title>
+                                            <Card.Text>
+                                                {counter.isOccupied ? (
+                                                    // No badge for occupied counters
+                                                    <span></span>
+                                                ) : (
+                                                    <span className="badge bg-success">Available</span> // Only green badge for available counters
+                                                )}
+                                                <br />
+                                                Click to select this counter
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    ) : (
+                        // Render selected counter details
                         <div>
                             <Row className="d-flex align-items-center justify-content-center mt-3">
                                 <Col md="auto">
