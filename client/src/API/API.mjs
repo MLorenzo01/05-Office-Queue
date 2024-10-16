@@ -284,7 +284,8 @@ const API = {
     getAvailablesCounters,
     counterOccupied,
     disconnectCounter,
-    getNextCustomerForCounter
+    getNextCustomerForCounter,
+    getServedTicketsByCounter
 };
 
 export default API;
