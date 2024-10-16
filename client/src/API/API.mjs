@@ -283,20 +283,8 @@ const API = {
     getCounters,
     getAvailablesCounters,
     counterOccupied,
-    disconnectCounter
-  getServices,
-  getService,
-  takeTicket,
-  takeTime,
-  getServedTickets,
-  configureService,
-  getStats,
-  getServiceStats,
-  getCounters,
-  getAvailablesCounters,
-  counterOccupied,
-  disconnectCounter,
-  getNextCustomerForCounter,
+    disconnectCounter,
+    getNextCustomerForCounter
 };
 
 export default API;
