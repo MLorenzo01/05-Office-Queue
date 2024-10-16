@@ -143,6 +143,25 @@ class TicketDao {
             throw error;
         }
     }
+
+    async getLatestServedTicketsByCounter() {
+        try {
+            const tickets = await Ticket.findAll({
+                where: { isServed: true }, // Filter only served tickets
+                attributes: [
+                    [sequelize.fn('MAX', sequelize.col('servedNow')), 'latestServedTime'], // Get the latest time for each counter
+                    'id', 'code', 'serviceId', 'isServed', 'counterId'
+                ],
+                group: ['counterId'], // Group the results by counterId, so that there is only one ticket for each counter
+                order: [[sequelize.fn('MAX', sequelize.col('servedNow')), 'DESC']] // Sort by latest time servedNow
+            });
+    
+            console.log(tickets);
+            return tickets;
+        } catch (error) {
+            throw error;
+        }
+    }    
 }
 
 export default new TicketDao();
