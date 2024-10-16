@@ -8,6 +8,7 @@ import {
     getServices,
     createTicketForService,
     getServedTickets,
+    getServedTicketsByCounter,
     getCounters,
     getAvailablesCounters,
     updateOccupiedCounter,
@@ -91,6 +92,21 @@ app.get("/api/all-served-tickets", async (req, res) => {
     try {
 
         const tickets = await getServedTickets();
+
+        if (!tickets || tickets.length === 0) {
+            return res.status(404).json({ message: "No tickets found" });
+        }
+
+        res.status(200).json(tickets); // 200 OK
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// GET path that returns only one result for counter
+app.get("/api/counter-served-tickets", async (req, res) => {
+    try {
+        const tickets = await getServedTicketsByCounter();
 
         if (!tickets || tickets.length === 0) {
             return res.status(404).json({ message: "No tickets found" });

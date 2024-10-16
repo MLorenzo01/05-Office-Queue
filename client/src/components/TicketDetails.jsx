@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import API from "../API/API.mjs";
 
 function TicketDetails() {
     const { ticketId } = useParams(); // Get the ticketId from the route
+    const location = useLocation(); // Get location for accessing state
     const [ticket, setTicket] = useState(null);
     const [service, setService] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -55,9 +56,20 @@ function TicketDetails() {
                     <p className="display-4 m-4 fw-bold text-primary">
                         {service.name}
                     </p>
+
+                    {/* Display the QR code image */}
+                    {location.state && location.state.qrCodeUrl && (
+                        <img
+                            src={location.state.qrCodeUrl}
+                            alt="QR Code"
+                            className="my-4"
+                            style={{ width: "200px", height: "200px" }}
+                        />
+                    )}
+
                     <h3 className="fst-italic">
                         Don't forget to check the screen to know when it's your
-                        turn !
+                        turn!
                     </h3>
                 </>
             )}

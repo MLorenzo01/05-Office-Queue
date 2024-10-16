@@ -64,6 +64,15 @@ export const getServedTickets = async () => {
     }
 };
 
+export const getServedTicketsByCounter = async () => {
+    try {
+        const tickets = await ticketDao.getLatestServedTicketsByCounter();
+        return tickets;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getTicket = async (ticketId) => {
     try {
         const ticket = await ticketDao.getTicketById(ticketId);

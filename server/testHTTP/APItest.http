@@ -45,3 +45,6 @@ PUT http://localhost:3001/api/counters/2/disconnect HTTP/1.1
 
 ### Get all served tickets
 GET http://localhost:3001/api/all-served-tickets HTTP/1.1
+
+### Get that returns only one result for counter
+GET http://localhost:3001/api/counter-served-tickets HTTP/1.1

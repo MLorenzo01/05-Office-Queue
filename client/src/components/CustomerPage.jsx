@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Row, Col } from 'react-bootstrap';
-//import { getServices, getCounters, takeTicket } from '../API/API.mjs';
-import API from '../API/API.mjs';// API per i servizi
+import API from '../API/API.mjs'; // API for services
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 
 function Customerpage() {
     const [counters, setCounters] = useState([]);
-    const [services, setServices] = useState([]); // Stato per i servizi
+    const [services, setServices] = useState([]); // State for services
     const navigate = useNavigate();
 
-    // Funzione per recuperare i counters dall'API
+    // Function to fetch counters and services from the API
     useEffect(() => {
         const fetchCounters = async () => {
             try {
@@ -39,7 +38,10 @@ function Customerpage() {
             const ticket = await API.takeTicket(serviceId, 1);
             console.log('Ticket taken:', ticket);
 
-            navigate('/queueList');
+            // Navigate to TicketDetails, passing ticket id and QR code URL
+            navigate(`/tickets/${ticket.ticket.id}`, {
+                state: { qrCodeUrl: ticket.qrCodeUrl } // Pass QR code URL in state
+            });
         } catch (error) {
             console.error('Error taking ticket:', error);
         }
@@ -57,12 +59,11 @@ function Customerpage() {
                                 style={{ width: '18rem', transition: 'transform 0.2s ease-in-out' }}
                                 onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
                                 onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-                                onClick={() => handleCardClick(counter.id, services[index]?.id)} // Passa counter e service id
+                                onClick={() => handleCardClick(services[index]?.id)}
                             >
                                 <Card.Body>
-                                    <Card.Title>Counter {counter.id}</Card.Title>
-                                    <Card.Text>Service: {services[index]?.name || 'N/A'}</Card.Text>
-                                    <Card.Text>Estimated Time: {counter.estimatedTime} minutes</Card.Text>
+                                    <Card.Title>Service: {services[index]?.name || 'N/A'}</Card.Title>
+                                    <Card.Text>Estimated Time: {services[index]?.estimatedTime} minutes</Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>
