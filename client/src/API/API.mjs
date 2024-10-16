@@ -87,19 +87,19 @@ const takeTime = async (ticketId) => {
 
 // GET all the tickets with isServed=true
 const getServedTickets = async () => {
-  const response = await fetch(`${baseURL}/api/all-served-tickets`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if(response.ok){
-    const tickets = await response.json();
-    return tickets;
-  } else {
-      const errDetails = await response.text();
-      throw errDetails;
-  }
+    const response = await fetch(`${baseURL}/api/all-served-tickets`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (response.ok) {
+        const tickets = await response.json();
+        return tickets;
+    } else {
+        const errDetails = await response.text();
+        throw errDetails;
+    }
 }
 
 
@@ -234,18 +234,19 @@ const disconnectCounter = async (counterId) => {
 };
 
 const API = {
-  getServices,
-  getService,
-  takeTicket,
-  takeTime,
-  getServedTickets,
-  configureService,
-  getStats,
-  getServiceStats,
-  getCounters,
-  getAvailablesCounters,
-  counterOccupied,
-  disconnectCounter
+    getServices,
+    getService,
+    getTicket,
+    takeTicket,
+    takeTime,
+    getServedTickets,
+    configureService,
+    getStats,
+    getServiceStats,
+    getCounters,
+    getAvailablesCounters,
+    counterOccupied,
+    disconnectCounter
 };
 
 export default API;
