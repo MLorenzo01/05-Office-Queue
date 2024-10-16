@@ -123,13 +123,17 @@ export const updateDisconnectedCounter = async (counterId) => {
 export const getNextCustomerForCounter = async (counterId) => {
     try {
         //const services = await counterDao.getServiceByCounterId(counterId);
-        const service = await ticketDao.getServiceWithMaxEstimatedTime(counterId);
-        if (!service) {
-            return null; // No services found for the counter
+        const services = await ticketDao.getServiceWithMaxEstimatedTime(counterId);
+        if (!services) {
+            return null;
         }
-        // get the next ticket for the service
-        const ticket = await ticketDao.takeTicketToServed(service.serviceId);
-        return ticket;
+        for(let i = 0; i < services.length; i++){
+            const service = services[i];
+            const ticket = await ticketDao.takeTicketToServed(service.serviceId, counterId);
+            if(ticket){
+                return ticket;
+            }
+        }
     } catch (error) {
         throw error;
     }

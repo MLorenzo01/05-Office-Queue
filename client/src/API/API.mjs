@@ -103,6 +103,7 @@ const getServedTickets = async () => {
 }
 
 
+
 // ----------------- CONFIGURATION ----------------- //
 
 // Configure the service with the number of counters
@@ -233,6 +234,26 @@ const disconnectCounter = async (counterId) => {
     }
 };
 
+const getNextCustomerForCounter = async (counterId) => {
+    const response = await fetch(
+        `${baseURL}/api/counters/${counterId}/next-customer`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    if (response.ok) {
+        const ticket = await response.json();
+        return ticket;
+    } else {
+        const errDetails = await response.text();
+        throw new Error(errDetails);
+    }
+}
+
 const API = {
   getServices,
   getService,
@@ -245,7 +266,8 @@ const API = {
   getCounters,
   getAvailablesCounters,
   counterOccupied,
-  disconnectCounter
+  disconnectCounter,
+  getNextCustomerForCounter,
 };
 
 export default API;
