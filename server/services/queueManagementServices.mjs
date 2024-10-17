@@ -138,21 +138,27 @@ export const updateDisconnectedCounter = async (counterId) => {
     }
 };
 
-    // Method to get the next customer for a counter
+// Method to get the next customer for a counter
 export const getNextCustomerForCounter = async (counterId) => {
     try {
         //const services = await counterDao.getServiceByCounterId(counterId);
-        const services = await ticketDao.getServiceWithMaxEstimatedTime(counterId);
+        const services = await ticketDao.getServiceWithMaxEstimatedTime(
+            counterId
+        );
         if (!services) {
             return null;
         }
-        for(let i = 0; i < services.length; i++){
+        for (let i = 0; i < services.length; i++) {
             const service = services[i];
-            const ticket = await ticketDao.takeTicketToServed(service.serviceId, counterId);
-            if(ticket){
+            const ticket = await ticketDao.takeTicketToServed(
+                service.serviceId,
+                counterId
+            );
+            if (ticket) {
                 return ticket;
             }
         }
+        return null;
     } catch (error) {
         throw error;
     }

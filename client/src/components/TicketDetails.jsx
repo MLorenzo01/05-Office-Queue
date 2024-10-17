@@ -27,6 +27,7 @@ function TicketDetails() {
                 }
                 setLoading(false);
             } catch (err) {
+                console.error("Error fetching ticket:", err);
                 setError(err);
                 setLoading(false);
             }

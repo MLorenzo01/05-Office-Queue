@@ -100,12 +100,11 @@ const getServedTickets = async () => {
         const errDetails = await response.text();
         throw errDetails;
     }
-}
-
+};
 
 // GET that returns only one result for counter
 const getServedTicketsByCounter = async () => {
-    const response = await fetch(`${baseURL}/api/counter-served-tickets`, {
+    const response = await fetch(`${baseURL}/api/counters-status`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -118,7 +117,7 @@ const getServedTicketsByCounter = async () => {
         const errDetails = await response.text();
         throw errDetails;
     }
-}
+};
 
 // ----------------- CONFIGURATION ----------------- //
 
@@ -284,11 +283,12 @@ const getNextCustomerForCounter = async (counterId) => {
         const errDetails = await response.text();
         throw new Error(errDetails);
     }
-}
+};
 
 const API = {
     getServices,
     getService,
+    getTicket,
     takeTicket,
     takeTime,
     getServedTickets,
@@ -301,7 +301,7 @@ const API = {
     counterOccupied,
     disconnectCounter,
     getCountersStatus,
-    getNextCustomerForCounter
+    getNextCustomerForCounter,
 };
 
 export default API;

@@ -44,7 +44,7 @@ class TicketDao {
             throw error;
         }
     }
-    
+
     //Take the ticket to served gived the serviceId
     async takeTicketToServed(serviceId, counterId) {
         try {
@@ -61,7 +61,7 @@ class TicketDao {
 
             ticket.isServed = true;
             ticket.servedNow = new Date();
-            ticket.counterId = counterId;
+            ticket.counterID = parseInt(counterId);
             await ticket.save();
             return ticket;
         } catch (error) {
@@ -85,9 +85,9 @@ class TicketDao {
 
     // retrieve the service with the sum of the estimated time related to the number of tickets for that service
     async getServiceWithMaxEstimatedTime(counterId) {
-        try{
+        try {
             const services = await this.getServiceByCounterId(counterId);
-            if(!services){
+            if (!services) {
                 return null;
             }
             const serviceIds = services.map((service) => service.serviceId);
@@ -98,7 +98,13 @@ class TicketDao {
                 },
                 attributes: [
                     "serviceId",
-                    [sequelize.fn("SUM", sequelize.col("Service.estimatedTime")), "totalEstimatedTime"],
+                    [
+                        sequelize.fn(
+                            "SUM",
+                            sequelize.col("Service.estimatedTime")
+                        ),
+                        "totalEstimatedTime",
+                    ],
                 ],
                 include: {
                     model: Service,
@@ -107,12 +113,12 @@ class TicketDao {
                 group: ["serviceId"],
                 order: [[sequelize.literal("totalEstimatedTime"), "DESC"]],
             });
-            if(AllService){
+            if (!AllService) {
                 console.log("No services found for the counter: ", counterId);
                 return null;
             }
             return AllService;
-        }catch(error){
+        } catch (error) {
             throw error;
         }
     }
@@ -136,7 +142,7 @@ class TicketDao {
         try {
             const tickets = await Ticket.findAll({
                 where: { isServed: true },
-                order: [['servedNow', 'DESC']], // Sort by newest ticket first
+                order: [["servedNow", "DESC"]], // Sort by newest ticket first
             });
             return tickets;
         } catch (error) {
@@ -149,17 +155,26 @@ class TicketDao {
             const tickets = await Ticket.findAll({
                 where: { isServed: true }, // Filter only served tickets
                 attributes: [
-                    [sequelize.fn('MAX', sequelize.col('servedNow')), 'latestServedTime'], // Get the latest time for each counter
-                    'id', 'code', 'serviceId', 'isServed', 'counterId'
+                    [
+                        sequelize.fn("MAX", sequelize.col("servedNow")),
+                        "latestServedTime",
+                    ], // Get the latest time for each counter
+                    "id",
+                    "code",
+                    "serviceId",
+                    "isServed",
+                    "counterId",
                 ],
-                group: ['counterId'], // Group the results by counterId, so that there is only one ticket for each counter
-                order: [[sequelize.fn('MAX', sequelize.col('servedNow')), 'DESC']] // Sort by latest time servedNow
+                group: ["counterId"], // Group the results by counterId, so that there is only one ticket for each counter
+                order: [
+                    [sequelize.fn("MAX", sequelize.col("servedNow")), "DESC"],
+                ], // Sort by latest time servedNow
             });
             return tickets;
         } catch (error) {
             throw error;
         }
-    }    
+    }
 }
 
 export default new TicketDao();
