@@ -49,8 +49,14 @@ function Officerpage() {
         }
     };
 
-    const handleNextClient = () => {
-        setClientNumber(clientNumber + 1);
+    const handleNextClient = async () => {
+        try {
+            // Call the API to say to call the next client to this service
+            ticket = await API.getNextCustomerForCounter(selectedCounter.id);
+            setClientNumber(ticket.code);
+        } catch (error) {
+            setError(error);
+        }
     };
 
     return (

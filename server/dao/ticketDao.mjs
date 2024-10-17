@@ -46,7 +46,7 @@ class TicketDao {
     }
     
     //Take the ticket to served gived the serviceId
-    async takeTicketToServed(serviceId) {
+    async takeTicketToServed(serviceId, counterId) {
         try {
             const ticket = await Ticket.findOne({
                 where: {
@@ -61,6 +61,7 @@ class TicketDao {
 
             ticket.isServed = true;
             ticket.servedNow = new Date();
+            ticket.counterId = counterId;
             await ticket.save();
             return ticket;
         } catch (error) {
@@ -91,7 +92,7 @@ class TicketDao {
             }
             const serviceIds = services.map((service) => service.serviceId);
             const serviceId = serviceIds[0];
-            const service = await Ticket.findOne({
+            const AllService = await Ticket.findAll({
                 where: {
                     serviceId,
                 },
@@ -106,11 +107,11 @@ class TicketDao {
                 group: ["serviceId"],
                 order: [[sequelize.literal("totalEstimatedTime"), "DESC"]],
             });
-            if(!service){
+            if(AllService){
                 console.log("No services found for the counter: ", counterId);
                 return null;
             }
-            return service;
+            return AllService;
         }catch(error){
             throw error;
         }

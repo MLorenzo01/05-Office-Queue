@@ -87,32 +87,33 @@ const takeTime = async (ticketId) => {
 
 // GET all the tickets with isServed=true
 const getServedTickets = async () => {
-  const response = await fetch(`${baseURL}/api/all-served-tickets`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if(response.ok){
-    const tickets = await response.json();
-    return tickets;
-  } else {
-      const errDetails = await response.text();
-      throw errDetails;
-  }
+    const response = await fetch(`${baseURL}/api/all-served-tickets`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (response.ok) {
+        const tickets = await response.json();
+        return tickets;
+    } else {
+        const errDetails = await response.text();
+        throw errDetails;
+    }
 }
+
 
 // GET that returns only one result for counter
 const getServedTicketsByCounter = async () => {
     const response = await fetch(`${baseURL}/api/counter-served-tickets`, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
     });
-    if(response.ok){
-    const tickets = await response.json();
-    return tickets;
+    if (response.ok) {
+        const tickets = await response.json();
+        return tickets;
     } else {
         const errDetails = await response.text();
         throw errDetails;
@@ -265,21 +266,42 @@ const getCountersStatus = async () => {
     }
 };
 
+const getNextCustomerForCounter = async (counterId) => {
+    const response = await fetch(
+        `${baseURL}/api/counters/${counterId}/next-customer`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    if (response.ok) {
+        const ticket = await response.json();
+        return ticket;
+    } else {
+        const errDetails = await response.text();
+        throw new Error(errDetails);
+    }
+}
+
 const API = {
-  getServices,
-  getService,
-  takeTicket,
-  takeTime,
-  getServedTickets,
-  getServedTicketsByCounter,
-  configureService,
-  getStats,
-  getServiceStats,
-  getCounters,
-  getAvailablesCounters,
-  counterOccupied,
-  disconnectCounter,
-  getCountersStatus,
+    getServices,
+    getService,
+    takeTicket,
+    takeTime,
+    getServedTickets,
+    getServedTicketsByCounter,
+    configureService,
+    getStats,
+    getServiceStats,
+    getCounters,
+    getAvailablesCounters,
+    counterOccupied,
+    disconnectCounter,
+    getCountersStatus,
+    getNextCustomerForCounter
 };
 
 export default API;
