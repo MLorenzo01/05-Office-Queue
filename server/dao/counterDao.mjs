@@ -1,5 +1,6 @@
 import Counter from "../models/counter.mjs";
 import Service from "../models/service.mjs";
+import Ticket from "../models/ticket.mjs";
 
 class CounterDao {
 
@@ -61,6 +62,35 @@ class CounterDao {
             throw error;
         }
     }
+
+    async getCountersWithLatestTicket() {
+        try {
+            // First get all counters
+            const counters = await Counter.findAll();
+    
+            // Then for each counter, get the latest ticket served (if available)
+            const countersWithLatestTickets = await Promise.all(counters.map(async (counter) => {
+                const latestTicket = await Ticket.findOne({
+                    where: {
+                        counterID: counter.id,
+                        isServed: true
+                    },
+                    order: [['servedNow', 'DESC']], // Get the latest ticket
+                    attributes: ['id', 'code', 'serviceId', 'counterID', 'servedNow'],
+                    
+                });
+    
+                return {
+                    ...counter.get({ plain: true }),
+                    latestTicket
+                };
+            }));
+    
+            return countersWithLatestTickets;
+        } catch (error) {
+           throw error;
+        }
+    }       
 }
 
 export default new CounterDao();

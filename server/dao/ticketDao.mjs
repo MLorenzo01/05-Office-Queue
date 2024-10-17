@@ -137,7 +137,6 @@ class TicketDao {
                 where: { isServed: true },
                 order: [['servedNow', 'DESC']], // Sort by newest ticket first
             });
-            console.log(tickets);
             return tickets;
         } catch (error) {
             throw error;
@@ -155,8 +154,6 @@ class TicketDao {
                 group: ['counterId'], // Group the results by counterId, so that there is only one ticket for each counter
                 order: [[sequelize.fn('MAX', sequelize.col('servedNow')), 'DESC']] // Sort by latest time servedNow
             });
-    
-            console.log(tickets);
             return tickets;
         } catch (error) {
             throw error;

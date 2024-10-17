@@ -49,4 +49,6 @@ const Ticket = sequelize.define('Ticket', {
 Ticket.belongsTo(Service, { foreignKey: 'serviceId'});
 Ticket.belongsTo(Counter, { foreignKey: 'counterID'});
 
+Counter.hasMany(Ticket, {foreignKey: 'counterID'});
+
 export default Ticket;

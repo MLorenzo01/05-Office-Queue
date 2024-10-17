@@ -9,6 +9,7 @@ import {
     createTicketForService,
     getServedTickets,
     getServedTicketsByCounter,
+    getCountersWithLatestTicket,
     getCounters,
     getAvailablesCounters,
     updateOccupiedCounter,
@@ -87,6 +88,27 @@ app.post("/api/tickets", async (req, res) => {
     }
 });
 
+// GET route to get the ticket details
+app.get("/api/tickets/:ticketId", async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+
+        if (!ticketId) {
+            return res.status(400).json({ message: "Ticket ID is required" });
+        }
+
+        const ticket = await getTicket(ticketId);
+
+        if (!ticket) {
+            return res.status(404).json({ message: "Ticket not found" });
+        }
+
+        res.status(200).json(ticket); // 200 OK
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // GET route to get all the served tickets
 app.get("/api/all-served-tickets", async (req, res) => {
     try {
@@ -118,22 +140,16 @@ app.get("/api/counter-served-tickets", async (req, res) => {
     }
 });
 
-// GET route to get the ticket details
-app.get("/api/tickets/:ticketId", async (req, res) => {
+//API to get the status of all counters
+app.get("/api/counters-status", async (req, res) => {
     try {
-        const { ticketId } = req.params;
+        const countersStatus = await getCountersWithLatestTicket();
 
-        if (!ticketId) {
-            return res.status(400).json({ message: "Ticket ID is required" });
+        if (!countersStatus || countersStatus.length === 0) {
+            return res.status(404).json({ message: "No counters found" });
         }
 
-        const ticket = await getTicket(ticketId);
-
-        if (!ticket) {
-            return res.status(404).json({ message: "Ticket not found" });
-        }
-
-        res.status(200).json(ticket); // 200 OK
+        res.status(200).json(countersStatus); // 200 OK
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }

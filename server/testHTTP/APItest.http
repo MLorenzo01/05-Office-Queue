@@ -48,3 +48,6 @@ GET http://localhost:3001/api/all-served-tickets HTTP/1.1
 
 ### Get that returns only one result for counter
 GET http://localhost:3001/api/counter-served-tickets HTTP/1.1
+
+### Get all counters and associate the last ticket served (if available)
+GET http://localhost:3001/api/counters-status HTTP/1.1

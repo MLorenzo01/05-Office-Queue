@@ -82,6 +82,16 @@ export const getTicket = async (ticketId) => {
     }
 };
 
+// Service function to obtain the status of the counters with the last ticket
+export const getCountersWithLatestTicket = async () => {
+    try {
+        const countersStatus = await counterDao.getCountersWithLatestTicket();
+        return countersStatus;
+    } catch (error) {
+        throw error;
+    }
+};
+
 // Method to retrieve all counters by interacting with the DAO
 export const getCounters = async () => {
     try {

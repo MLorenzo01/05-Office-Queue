@@ -44,9 +44,9 @@ const populateDatabase = async () => {
 
     // Sample data for tickets
     const tickets = [
-      { code: 1001, serviceId: 1 },
-      { code: 1002, serviceId: 2 },
-      { code: 1003, serviceId: 3 },
+      { code: 1001, serviceId: 1, isServed: true, servedNow: new Date("2024-10-17 07:06:53.979 +00:00"), counterID: 1},
+      { code: 1002, serviceId: 2, isServed: true, servedNow: new Date("2024-10-17 08:06:53.979 +00:00"), counterID: 1},
+      { code: 1003, serviceId: 3, isServed: true, servedNow: new Date("2024-10-17 09:06:53.979 +00:00"), counterID: 2},
     ];
 
     // Insert tickets

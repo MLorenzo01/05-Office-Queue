@@ -249,6 +249,22 @@ const disconnectCounter = async (counterId) => {
     }
 };
 
+const getCountersStatus = async () => {
+    const response = await fetch(`${baseURL}/api/counters-status`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (response.ok) {
+        const countersStatus = await response.json();
+        return countersStatus;
+    } else {
+        const errDetails = await response.text();
+        throw errDetails;
+    }
+};
+
 const API = {
   getServices,
   getService,
@@ -262,7 +278,8 @@ const API = {
   getCounters,
   getAvailablesCounters,
   counterOccupied,
-  disconnectCounter
+  disconnectCounter,
+  getCountersStatus,
 };
 
 export default API;
