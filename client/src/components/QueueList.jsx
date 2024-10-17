@@ -4,22 +4,7 @@ import API from "../API/API.mjs";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function QueueList() {
-    const [services, setServices] = useState([]);
     const [counters, setCounters] = useState([]);
-
-    // Funzione per recuperare i servizi dall'API
-    useEffect(() => {
-        const fetchServices = async () => {
-            try {
-                const servicesData = await API.getServices();
-                setServices(servicesData);
-            } catch (error) {
-                console.error("Error fetching services:", error);
-            }
-        };
-
-        fetchServices();
-    }, []);
 
     useEffect(() => {
         const fetchCountersStatus = async () => {
@@ -30,25 +15,14 @@ function QueueList() {
                 console.error("Error fetching counters status:", error);
             }
         };
-
+        // fetch every 10 seconds
+        const interval = setInterval(() => {
+            fetchCountersStatus();
+        }, 10000);
         fetchCountersStatus();
+
+        return () => clearInterval(interval);
     }, []);
-
-    // Definizione dei counter predefiniti
-    // const counters = [
-    //     { id: 1, service: '', estimatedTime: 10 }, // Placeholder per il servizio
-    //     { id: 2, service: '', estimatedTime: 15 },
-    //     { id: 3, service: '', estimatedTime: 5 }
-    // ];
-
-    // Associa i servizi agli slot dei counter
-    // services.forEach((service, index) => {
-    //     if (index < counters.length) {
-    //         counters[index].service = service.name || "N/A"; // Assegna il nome del servizio al counter
-    //         counters[index].estimatedTime =
-    //             service.estimatedTime || counters[index].estimatedTime; // Assegna il tempo stimato se presente
-    //     }
-    // });
 
     return (
         <Container className="mt-5">

@@ -112,7 +112,6 @@ app.get("/api/tickets/:ticketId", async (req, res) => {
 // GET route to get all the served tickets
 app.get("/api/all-served-tickets", async (req, res) => {
     try {
-
         const tickets = await getServedTickets();
 
         if (!tickets || tickets.length === 0) {
@@ -243,5 +242,5 @@ app.get("/api/counters/:id/next-customer", async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`API server started at http://localhost:${port}`);
+    console.log(`API server started at http://192.168.219.51:${port}`);
 });

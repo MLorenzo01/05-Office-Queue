@@ -3,7 +3,7 @@ import ticketDao from "../dao/ticketDao.mjs";
 import serviceDao from "../dao/serviceDao.mjs";
 import counterDao from "../dao/counterDao.mjs";
 
-export const FRONT_END_URL = "localhost:5173";
+export const FRONT_END_URL = "192.168.219.51:5173";
 
 // Method to retrieve all services by interacting with the DAO
 export const getServices = async () => {
