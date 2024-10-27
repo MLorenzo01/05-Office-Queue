@@ -48,18 +48,18 @@ class CounterDao {
             throw error;
         }
     }
-
-    async getServiceByCounterId(id) {
-        try {
-            const counter = await Counter.findByPk(id, {
-                include: Service,
-            });
-            return counter ? counter.Services : null;
-        } catch (error) {
-            throw error;
+    /*
+        async getServiceByCounterId(id) {
+            try {
+                const counter = await Counter.findByPk(id, {
+                    include: Service,
+                });
+                return counter ? counter.Services : null;
+            } catch (error) {
+                throw error;
+            }
         }
-    }
-
+    */
     async getCountersWithLatestTicket() {
         try {
             // First get all counters
