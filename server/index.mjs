@@ -242,5 +242,5 @@ app.get("/api/counters/:id/next-customer", async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`API server started at http://192.168.219.51:${port}`);
+    console.log(`API server started at http://localhost:${port}`);
 });

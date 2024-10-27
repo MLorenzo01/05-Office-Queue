@@ -1,4 +1,4 @@
-const baseURL = "http://192.168.219.51:3001";
+const baseURL = "http://localhost:3001";
 
 // ----------------- SERVICES ----------------- //
 

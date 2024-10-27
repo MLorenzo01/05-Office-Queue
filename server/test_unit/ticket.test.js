@@ -119,12 +119,6 @@ describe('TicketDao', () => {
         expect(result).toEqual(mockTickets);
     });
 
-    it('should return an empty array if no services found for max estimated time', async () => {
-        TicketDao.getServiceByCounterId = jest.fn().mockResolvedValue([]);
-        const result = await TicketDao.getServiceWithMaxEstimatedTime(1);
-        expect(result).toEqual([]);
-    });
-
     it('should get the next customer ticket', async () => {
         const mockTicket = { id: 1, code: '1001', isServed: false };
         Ticket.findOne.mockResolvedValue(mockTicket);

@@ -55,7 +55,7 @@ function QueueList() {
                                     Estimated Time:{" "}
                                     {counter.latestTicket
                                         ? counter.latestTicket.Service
-                                              .estimatedTime
+                                            .estimatedTime
                                         : "N/A"}{" "}
                                     minutes
                                 </Card.Text>

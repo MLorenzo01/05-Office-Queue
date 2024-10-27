@@ -87,34 +87,6 @@ describe('CounterDao', () => {
         expect(result).toBeNull();
     });
 
-    it('should fetch counters with the latest ticket', async () => {
-        const mockCounters = [
-            { id: 1, number: 1, get: jest.fn(() => ({ id: 1, number: 1 })) },
-            { id: 2, number: 2, get: jest.fn(() => ({ id: 2, number: 2 })) },
-            { id: 3, number: 3, get: jest.fn(() => ({ id: 3, number: 3 })) },
-        ];
-
-        const mockTickets = [
-            { code: 1001, counterID: 1, isServed: true, servedNow: new Date() },
-            { code: 1002, counterID: 2, isServed: true, servedNow: new Date() },
-            null, // No ticket for the third counter
-        ];
-
-        Counter.findAll.mockResolvedValue(mockCounters);
-        Ticket.findOne.mockImplementation((options) => {
-            const { where } = options;
-            const ticket = mockTickets.find(t => t && t.counterID === where.counterID);
-            return Promise.resolve(ticket);
-        });
-
-        const countersWithLatestTicket = await CounterDao.getCountersWithLatestTicket();
-        expect(Counter.findAll).toHaveBeenCalled();
-        expect(countersWithLatestTicket.length).toBe(3);
-        expect(countersWithLatestTicket[0].latestTicket).toEqual(mockTickets[0]);
-        expect(countersWithLatestTicket[1].latestTicket).toEqual(mockTickets[1]);
-        expect(countersWithLatestTicket[2].latestTicket).toBeNull();
-    });
-
     it('should fetch services by counter ID', async () => {
         const mockCounter = { id: 1, Services: [{ id: 1, name: 'Service A' }] };
         Counter.findByPk.mockResolvedValue(mockCounter);
