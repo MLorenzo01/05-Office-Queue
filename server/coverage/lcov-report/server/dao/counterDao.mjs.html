@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.07% </span>
+                <span class="strong">90.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>93/101</span>
+                <span class='fraction'>91/101</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>10/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.07% </span>
+                <span class="strong">90.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>93/101</span>
+                <span class='fraction'>91/101</span>
             </div>
         
             
@@ -216,15 +216,15 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -315,18 +315,18 @@ class CounterDao {
 <span class="cstat-no" title="statement not covered" >            throw error;</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
     }
-    /*
-        async getServiceByCounterId(id) {
-            try {
-                const counter = await Counter.findByPk(id, {
-                    include: Service,
-                });
-                return counter ? counter.Services : null;
-            } catch (error) {
-                throw error;
-            }
-        }
-    */
+&nbsp;
+    async getServiceByCounterId(id) {
+        try {
+            const counter = await Counter.findByPk(id, {
+                include: Service,
+            });
+            return counter ? counter.Services : null;
+        } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >            throw error;</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+    }
+&nbsp;
     async getCountersWithLatestTicket() {
         try {
             // First get all counters
@@ -340,7 +340,6 @@ class CounterDao {
                             counterID: counter.id,
                             isServed: true,
                         },
-                        include: Service,
                         order: [["servedNow", "DESC"]], // Get the latest ticket
                         attributes: [
                             "id",
@@ -351,16 +350,17 @@ class CounterDao {
                         ],
                     });
 &nbsp;
+                    // Ensure that we always return an object for the counter
                     return {
                         ...counter.get({ plain: true }),
-                        latestTicket,
+                        latestTicket: latestTicket || null, // Explicitly set to null if no ticket found
                     };
                 })
             );
 &nbsp;
             return countersWithLatestTickets;
         } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >            throw error;</span>
+<span class="cstat-no" title="statement not covered" >            throw error; // Consider logging the error here for better debugging</span>
 <span class="cstat-no" title="statement not covered" >        }</span>
     }
 }
@@ -373,7 +373,7 @@ export default new CounterDao();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-27T16:49:17.822Z
+                at 2024-10-27T18:07:36.723Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

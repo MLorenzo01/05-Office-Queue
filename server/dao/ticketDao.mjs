@@ -87,8 +87,8 @@ class TicketDao {
     async getServiceWithMaxEstimatedTime(counterId) {
         try {
             const services = await this.getServiceByCounterId(counterId);
-            if (!services) {
-                return null;
+            if (!services || services.length === 0) { // Modifica qui per controllare l'array vuoto
+                return []; // Restituisci un array vuoto
             }
             const serviceIds = services.map((service) => service.serviceId);
             const serviceId = serviceIds[0];
@@ -113,15 +113,12 @@ class TicketDao {
                 group: ["serviceId"],
                 order: [[sequelize.literal("totalEstimatedTime"), "DESC"]],
             });
-            if (!AllService) {
-                console.log("No services found for the counter: ", counterId);
-                return null;
-            }
             return AllService;
         } catch (error) {
             throw error;
         }
     }
+
 
     async getNextCustomerTicket(serviceId) {
         try {

@@ -73,7 +73,6 @@ class CounterDao {
                             counterID: counter.id,
                             isServed: true,
                         },
-                        include: Service,
                         order: [["servedNow", "DESC"]], // Get the latest ticket
                         attributes: [
                             "id",
@@ -84,16 +83,17 @@ class CounterDao {
                         ],
                     });
 
+                    // Ensure that we always return an object for the counter
                     return {
                         ...counter.get({ plain: true }),
-                        latestTicket,
+                        latestTicket: latestTicket || null, // Explicitly set to null if no ticket found
                     };
                 })
             );
 
             return countersWithLatestTickets;
         } catch (error) {
-            throw error;
+            throw error; // Consider logging the error here for better debugging
         }
     }
 }
